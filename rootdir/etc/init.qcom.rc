@@ -394,8 +394,16 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
 
 on boot
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
 
+    # CPU Sets
+
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuctl/cpu.shares 1024
+
+    mount debugfs /sys/kernel/debug /sys/kernel/debug
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -430,6 +438,10 @@ on boot
 
     # Permissions for usb_lock
     chown system radio /sys/class/android_usb/android0/usb_lock
+
+    # misc radio files
+    chmod 0664 /data/data/data_usage_rx
+    chmod 0664 /data/data/data_usage_tx
 
     # For WiFi
     chown wifi wifi /dev/rfkill
@@ -480,11 +492,13 @@ on boot
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
 
-
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+
+    chown radio radio /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
+    chmod 664 /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
 
     # For setting tcp delayed ack
     chown system system /sys/kernel/ipv4/tcp_delack_seg
@@ -573,7 +587,11 @@ on boot
     chown system system /sys/class/input/input0/enabled
 
     # Fingerprint
-    mkdir /dev/validity 0775 system system
+    mkdir /dev/validity 0770 system system
+    mkdir /data/validity 0770 system system
+
+    # Fingerprint_sensor
+    chown system radio /sys/class/fingerprint/fingerprint/type_check
 
     # SEC DVFS sysfs node
     chown radio system /sys/power/cpufreq_max_limit
@@ -774,8 +792,6 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
-
-
 
     # Adjust YUV to RGB Conversion(CSC_Conversion)
     chown system media_rw /sys/class/graphics/fb0/csc_cfg
@@ -1208,9 +1224,12 @@ on boot
     chown system radio /sys/class/sec/sec_touchkey/boost_level
 
     # permission for Input Device(Wacom).
-    chmod 0660 /sys/class/input/input4/enabled
-    chown system system /sys/class/input/input4/enabled
-    chown system system /sys/class/input/input18/enabled
+    chmod 0664 /sys/class/input/input4/enabled
+    chown system input /sys/class/input/input4/enabled
+    # (make sure input18 exists)
+    wait /sys/class/input/input18/enabled
+    chmod 0664 /sys/class/input/input18/enabled
+    chown system input /sys/class/input/input18/enabled
 
     # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
@@ -1232,6 +1251,17 @@ on boot
 
 # Services begin here
 
+# SENSOR FRAMEWORK : starts fingerprintService
+service vcsFPService /system/bin/vcsFPService
+    class late_start
+    user system
+    group system
+
+service fingerprintd /system/bin/fingerprintd
+    class late_start
+    user system
+    group input
+
 service adsprpcd /system/bin/adsprpcd
     class main
     user media
@@ -1241,11 +1271,16 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     class main
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
+    writepid /dev/cpuset/system-background/tasks
 
-service gsiff_daemon /system/bin/gsiff_daemon
-    class late_start
-    user system
-    group gps qcom_oncrpc net_raw
+# there seems to be a large philosophical discussion about this daemon.  The consensus seems to
+# be to not enable it http://forum.xda-developers.com/showthread.php?t=1755180 but it's here
+# and selinux can handle it if anyone wants to add it back --fattire
+
+#service gsiff_daemon /system/bin/gsiff_daemon
+#    class late_start
+#    user system
+#    group gps qcom_oncrpc
 
 service qseecomd /system/bin/qseecomd
     class core
@@ -1256,6 +1291,7 @@ service mpdecision /system/bin/mpdecision --avg_comp
     class main
     user root
     group system
+    writepid /dev/cpuset/system-background/tasks
     disabled
 
 #service thermal-engine /system/bin/thermal-engine
@@ -1565,12 +1601,10 @@ on property:sys.boot_completed=1
     write /sys/module/cpu_boost/parameters/plug_boost_ms 5
 
     # permissions for S-Pen
-    chmod 0660 /dev/input/event18
-    chmod 0660 /dev/input/event19
+    chmod 0664 /dev/input/event18
+    chmod 0664 /dev/input/event19
     chown system input /dev/input/event18
     chown system input /dev/input/event19
-    chmod 0660 /sys/class/input/input18/enabled
-    chown system system /sys/class/input/input18/enabled
     chown system radio /sys/class/sec/sec_epen/epen_firm_update
     chown system radio /sys/class/sec/sec_epen/epen_reset
     chown system radio /sys/class/sec/sec_epen/epen_reset_result
@@ -1603,8 +1637,9 @@ service sec-sh /system/bin/sh /system/etc/init.sec.boot.sh
     user root
     oneshot
 
-service charger /charger
+service charger /sbin/healthd
     class charger
+    seclabel u:r:healthd:s0
 
 service hcidump /system/bin/sh /system/etc/hcidump.sh
     user bluetooth
