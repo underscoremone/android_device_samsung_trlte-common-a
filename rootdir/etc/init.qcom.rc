@@ -835,8 +835,6 @@ on boot
    chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_grammar_path
    chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_net_path
 
-# Fingerprint_sensor
-    chown system radio /sys/class/fingerprint/fingerprint/type_check
 # Accelerometer_sensor
     chown system radio /sys/class/sensors/accelerometer_sensor/raw_data
     chown system radio /sys/class/sensors/accelerometer_sensor/calibration
@@ -1637,12 +1635,6 @@ service sec-sh /system/bin/sh /system/etc/init.sec.boot.sh
     class main
     user root
     oneshot
-
-# SENSOR FRAMEWORK : starts fingerprintService
-service vcsFPService /system/bin/vcsFPService
-    class late_start
-    user system
-    group system
 
 service hcidump /system/bin/sh /system/etc/hcidump.sh
     user bluetooth
