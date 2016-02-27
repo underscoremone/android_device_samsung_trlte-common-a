@@ -1672,9 +1672,6 @@ on charger
     write /sys/module/msm_pm/modes/cpu0/standalone_power_collapse/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu0/retention/idle_enabled 1
 
-<<<<<<< HEAD
-=======
     # Set default values on boot
     write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 200000000
     write /sys/class/kgsl/kgsl-3d0/max_gpuclk 600000000
->>>>>>> b1e8eaf... trlte: fix offmode charging
