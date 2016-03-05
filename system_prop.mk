@@ -57,5 +57,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.perf.cores_online=2
 
 # lazy dexopt
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.lazy.dexopt=true
+#PRODUCT_PROPERTY_OVERRIDES += \
+#    persist.sys.lazy.dexopt=true
