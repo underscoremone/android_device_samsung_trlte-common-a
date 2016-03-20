@@ -1691,19 +1691,3 @@ on property:service.bootanim.exit=1
     # Set default values on boot
     write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 200000000
     write /sys/class/kgsl/kgsl-3d0/max_gpuclk 600000000
-
-service supolicy /system/xbin/supolicy --live \
-	"allow shell dalvikcache_data_file file write" \
-	"allow shell dalvikcache_data_file dir write" \
-	"allow shell dalvikcache_data_file:file unlink" \
-	"allow shell dalvikcache_data_file:dir remove_name" \
-	"allow shell self:capability dac_override" \
-	"allow mediaserver mediaserver_tmpfs file execute" \
-	"allow isolated_app app_data_file dir search" \
-	"allow untrusted_app self:udp_socket ioctl" \
-	"allow system_app sysfs:file write"
-     disabled
-     oneshot
-
-on fs
-     start supolicy
