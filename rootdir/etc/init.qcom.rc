@@ -665,7 +665,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
     chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boost
@@ -1659,6 +1659,8 @@ on property:sys.boot_completed=1
     write /sys/module/msm_thermal/parameters/freq_control_mask 15
     write /sys/module/msm_thermal/parameters/limit_temp_degC 80
     write /sys/module/msm_thermal/parameters/core_limit_temp_degC 85
+
+    chmod 777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
 
 service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
     class late_start
