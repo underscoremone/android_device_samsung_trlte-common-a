@@ -1,7 +1,3 @@
-# Bluetooth fix
-lib/hw/bluetooth.default.so
-lib/libbluetooth_jni.so
-
 # to check where did they come from and what do we really need
 bin/efsks
 bin/ks
