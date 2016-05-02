@@ -401,6 +401,12 @@ on early-boot
 
 on boot
 
+    # Enable msm hotplug for boot
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/cpu_boosted 2
+    write /sys/module/msm_hotplug/max_cpu_online 4
+    write /sys/module/msm_hotplug/min_cpu_online 2
+
     # CPU Sets
 
     write /dev/cpuset/foreground/cpus 0-3
@@ -1637,7 +1643,13 @@ on property:sys.boot_completed=1
     chown system radio /sys/class/sec/sec_epen/boost_level
 
     # Post boot services
-    start mpdecision
+    #start mpdecision
+
+    # Enable msm hotplug for boot
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/cpu_boosted 2
+    write /sys/module/msm_hotplug/max_cpu_online 4
+    write /sys/module/msm_hotplug/min_cpu_online 2
 
 service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
     class late_start
