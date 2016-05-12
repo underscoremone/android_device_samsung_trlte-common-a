@@ -1324,7 +1324,7 @@ service sensorhubservice /system/bin/sensorhubservice
 #    group radio system
 
 service time_daemon /system/bin/time_daemon
-    class late_start
+    class main
     user root
     group root
 
