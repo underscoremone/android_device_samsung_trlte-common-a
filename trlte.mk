@@ -129,6 +129,10 @@ PRODUCT_PACKAGES += \
     fingerprint.apq8084 \
     ValidityService
 
+# Gello
+PRODUCT_PACKAGES += \
+    Gello
+
 # GPS
 PRODUCT_PACKAGES += \
     gps.apq8084
