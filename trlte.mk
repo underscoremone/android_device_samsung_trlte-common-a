@@ -106,8 +106,7 @@ PRODUCT_COPY_FILES += \
 # Camera
 PRODUCT_PACKAGES += \
     libxml2 \
-    camera.apq8084 \
-    Snap
+    camera.apq8084
 
 # Gello
 PRODUCT_PACKAGES += \
