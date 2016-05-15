@@ -109,6 +109,10 @@ PRODUCT_PACKAGES += \
     camera.apq8084 \
     Snap
 
+# Gello
+PRODUCT_PACKAGES += \
+    Gello
+
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
