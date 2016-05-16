@@ -27,6 +27,12 @@ vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 
+# Bluetooth
+vendor/firmware/bcm4358A0_V0033.0000.hcd
+vendor/firmware/bcm4358A0_V0033.0000_wisol.hcd
+vendor/firmware/bcm4358A1_V0054.0095.hcd
+vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
+
 # Camera
 bin/mm-qcamera-daemon
 lib/hw/camera.apq8084.so
@@ -360,6 +366,7 @@ vendor/lib/libSHIMDivxDrm.so
 
 # NFC
 lib/hw/nfc_nci.apq8084.so
+vendor/firmware/sec_s3fwrn5_firmware.bin
 
 # Perf
 vendor/lib/libqc-opt.so
