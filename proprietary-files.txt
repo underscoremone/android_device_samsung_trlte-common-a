@@ -27,12 +27,6 @@ vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 
-# Bluetooth
-vendor/firmware/bcm4358A0_V0033.0000.hcd
-vendor/firmware/bcm4358A0_V0033.0000_wisol.hcd
-vendor/firmware/bcm4358A1_V0054.0095.hcd
-vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
-
 # Camera
 bin/mm-qcamera-daemon
 lib/hw/camera.apq8084.so
@@ -287,20 +281,19 @@ vendor/lib/libthermalioctl.so
 
 # DRM
 bin/qseecomd
-lib/libdrmdecrypt.so
 lib/drm/libdrmwvmplugin.so
-lib/drm/libfwdlockengine.so
-lib/drm/libomaplugin.so
-lib/drm/libplayreadyplugin.so
+vendor/lib/mediadrm/libdrmclearkeyplugin.so
+vendor/lib/mediadrm/libwvdrmengine.so
+vendor/lib/libQSEEComAPI.so
+lib/libdrmdecrypt.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
-vendor/lib/libQSEEComAPI.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
-vendor/lib/libWVStreamControlAPI_L1.so
-vendor/lib/libwvm.so
 vendor/lib/libwvdrm_L1.so
-vendor/lib/mediadrm/libwvdrmengine.so
+vendor/lib/libwvm.so
+vendor/lib/libWVphoneAPI.so
+vendor/lib/libWVStreamControlAPI_L1.so
 
 # Fingerprint
 bin/vcsFPService
@@ -309,6 +302,21 @@ lib/libvalAuth.so
 lib/libvcsfp.so
 lib/libvfmClient.so
 lib/libvfmtztransport.so
+
+# GPS
+bin/loc_launcher
+lib/hw/gps.default.so
+lib/libgps.utils.so
+lib/libloc_api_v02.so
+lib/libloc_eng.so
+lib/libloc_core.so
+vendor/lib/hw/flp.default.so
+vendor/lib/libalarmservice_jni.so
+vendor/lib/libgeofence.so
+vendor/lib/libizat_core.so
+vendor/lib/liblbs_core.so
+vendor/lib/liblocationservice.so
+vendor/lib/libulp2.so
 
 # Graphics
 vendor/lib/egl/eglSubDriverAndroid.so
@@ -321,17 +329,16 @@ vendor/lib/egl/libq3dtools_esx.so
 vendor/lib/libadreno_utils.so
 vendor/lib/libbccQTI.so
 vendor/lib/libC2D2.so
-vendor/lib/libc2d30-a4xx.so
 vendor/lib/libc2d30-a3xx.so
+vendor/lib/libc2d30-a4xx.so
 vendor/lib/libCB.so
 vendor/lib/libgsl.so
-vendor/lib/libllvm-qcom.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/libOpenCL.so
-vendor/lib/libqcci_legacy.so
-vendor/lib/libRSDriver_adreno.so
-vendor/lib/librs_adreno.so
+vendor/lib/libllvm-qcom.so
 vendor/lib/librs_adreno_sha1.so
+vendor/lib/librs_adreno.so
+vendor/lib/libRSDriver_adreno.so
 vendor/lib/libscale.so
 
 # Graphics firmware
@@ -379,6 +386,7 @@ vendor/lib/libmm-abl-oem.so
 
 # Qualcomm
 vendor/lib/libxml.so
+lib/libxml2.so
 
 # Sensors
 lib/hw/sensors.apq8084.so
@@ -396,7 +404,11 @@ bin/time_daemon
 -app/TimeService/TimeService.apk
 lib/libcommon_time_client.so
 vendor/lib/libTimeService.so
-vendor/lib/libtime_genoff.so
+-vendor/lib/libtime_genoff.so
+
+# Bluetooth firmware
+vendor/firmware/bcm4358A1_V0051.0083.hcd
+vendor/firmware/bcm4358A1_V0051.0083_wisol.hcd
 
 # Wi-Fi
 etc/wifi/bcmdhd_apsta.bin
