@@ -397,14 +397,6 @@ on early-boot
 
 on boot
 
-    # Enable intelli-thermal for boot
-    write /sys/module/msm_thermal/parameters/enabled 1
-    write /sys/module/msm_thermal/core_control/enabled 1
-    write /sys/module/msm_thermal/parameters/core_control_mask 12
-    write /sys/module/msm_thermal/parameters/freq_control_mask 15
-    write /sys/module/msm_thermal/parameters/limit_temp_degC 80
-    write /sys/module/msm_thermal/parameters/core_limit_temp_degC 85
-
     # CPU Sets
 
     write /dev/cpuset/foreground/cpus 0-3
@@ -1303,10 +1295,10 @@ service sensorhubservice /system/bin/sensorhubservice
     user system
     group input
 
-#service thermal-engine /system/bin/thermal-engine
-#    class main
-#    user root
-#    group radio system
+service thermal-engine /system/bin/thermal-engine
+    class main
+    user root
+    group radio system
 
 service time_daemon /system/bin/time_daemon
     class main
@@ -1630,14 +1622,6 @@ on property:sys.boot_completed=1
 
     # Post boot services
     start mpdecision
-
-    # Enable intelli-thermal for boot
-    write /sys/module/msm_thermal/parameters/enabled 1
-    write /sys/module/msm_thermal/core_control/enabled 1
-    write /sys/module/msm_thermal/parameters/core_control_mask 12
-    write /sys/module/msm_thermal/parameters/freq_control_mask 15
-    write /sys/module/msm_thermal/parameters/limit_temp_degC 80
-    write /sys/module/msm_thermal/parameters/core_limit_temp_degC 85
 
     chmod 777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
 
